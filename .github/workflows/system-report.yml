@@ -1,0 +1,60 @@
+name: System Report
+
+on: push
+
+jobs:
+  system-info:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Print OS and Kernel
+        run: |
+          echo "OS Name:"
+          uname -o
+          echo "Kernel Version:"
+          uname -r
+
+      - name: Print Free Disk Space
+        run: df -h
+
+      - name: Print Current Date and Time
+        run: date
+
+      - name: Install tree
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y tree
+
+      - name: Show Home Directory
+        run: tree -L 2 ~
+
+  tool-check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Install jq
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y jq
+
+      - name: Create report.json
+        run: |
+          cat > report.json <<EOF
+          {
+            "name": "Soumya",
+            "project": "GitHub Actions",
+            "status": "Active"
+          }
+          EOF
+
+      - name: Read value using jq
+        run: jq -r '.project' report.json
+
+      - name: Print Tool Versions
+        run: |
+          python3 --version
+          git --version
+          jq --version
+
+      - name: Finish
+        run: echo "Report complete"
