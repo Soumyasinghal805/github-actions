@@ -3,7 +3,7 @@ run-name: Using expressions | DEBUG - ${{inputs.debug && 'ON' || 'OFF'}}
 
 on:
     workflow_dispatch:
-    inputs:
+      inputs:
       debug:
         type: boolean
         default: false
